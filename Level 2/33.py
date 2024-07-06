@@ -1,50 +1,40 @@
 """
 
-k진수에서 소수 개수 구하기
+[3차] n진수 게임
 
-n이라는 숫자를 k진수로 바꿈
+0 1 2 3 ... 9 1 0 1 1 ...
 
-그 바꾼 숫자에서 0으로 쪼갰을때 10진수 소수가 몇개인지 구하기.
+이런식으로 사람들이 돌아가면서 말하는데, 이걸 n진수로 함.
 
-예)
-437674 3 -> 211020101011 -> 211 2 1 1 11 -> 소수 3개
+총 m명이고, 자신은 p번째 사람임.
 
-진수 변환 -> divmod 쓰면서 2진수부터 계산해보면 금방 알고리즘 만들 수 있음.
+그랬을때 자신이 말하게 될 숫자를 t개 구하면 됨.
 
-소수 판별 -> 그냥 2부터 n**0.5까지 나눠보기 -> 한 번 할 때마다 O(루트n)
-dp사용해서 에라토스테네스체(역발상)로 소수 저장해놨다가 갖다 쓰기
--> 세팅하는데 O(nloglogn)-> O(~n) 이고, 판별할때는 당연히 O(1)
+11진수 이상부터는 대문자 알파벳으로 표기.
 
-이 문제는 10^6 부근이라서 최대 뭐 10^6 나와서 dp 안써도 됨.
+복잡도는 고려하지 않아도 될만큼 작아서
+그냥 문자열로 펼쳐놓고 indexing하면 됨.
 
 """
 
 
-def solution(n, k):
-    Num = ""
-    while True:
-        n, r = divmod(n, k)
-        Num += str(r)
-        if n == 0:
+def solution(n, t, m, p):
+    Nums = "0123456789ABCDEF"
+    # m*t 만큼 길이의 수열 나열.
+    Result = ""
+    Idx = 0
+    for i in range(m * t):
+        if len(Result) == m * t:
             break
+        # 진수변환
 
-    Num = Num[::-1]
-
-    Cnt = 0
-    for Word in Num.split("0"):
-        if not Word:
-            continue
-
-        n = int(Word)
-        Prime = True
-        if n == 1:
-            Prime = False
-        for i in range(2, int(n**0.5) + 1):
-            if n % i == 0:
-                Prime = False
+        Num = ""
+        while True:
+            q, r = divmod(i, n)
+            Num += Nums[r]
+            if q == 0:
                 break
+            i = q
 
-        if Prime:
-            Cnt += 1
-
-    return Cnt
+        Result += Num[::-1]
+    return "".join(Result[i] for i in range(p - 1, m * t, m))
