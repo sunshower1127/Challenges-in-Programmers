@@ -14,14 +14,14 @@ from collections import deque
 
 
 def solution(s):
-    stack1 = deque()
+    Stack = deque()
     for c in s:
-        if stack1 and stack1[-1] == c:
-            stack1.pop()
+        if Stack and Stack[-1] == c:
+            Stack.pop()
         else:
-            stack1.append(c)
+            Stack.append(c)
 
-    if stack1:
+    if Stack:
         return 0
     else:
         return 1

@@ -12,10 +12,10 @@ output : 83 -> 1010011 -> 4개
 
 def solution(n):
     i = n + 1
-    cnt_n = bin(n).count("1")
+    CntN = bin(n).count("1")
 
     while True:
-        if bin(i).count("1") == cnt_n:
+        if bin(i).count("1") == CntN:
             return i
 
         i += 1

@@ -9,17 +9,17 @@ tip : 종류별로 개수를 세는 Counter를 사용하면 편하다.
 
 """
 
-from collections import Counter
+from collections import Counter as cnter
 
 
 def solution(k, tangerine):
-    counter = Counter(tangerine)
-    cnt = 0
-    for value in sorted(counter.values(), reverse=True):
-        k -= value
+    Cnter = cnter(tangerine)
+    Cnt = 0
+    for Value in sorted(Cnter.values(), reverse=True):
+        k -= Value
         if k <= 0:
-            cnt += 1
+            Cnt += 1
             break
-        cnt += 1
+        Cnt += 1
 
-    return cnt
+    return Cnt

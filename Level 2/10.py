@@ -13,7 +13,7 @@
 def solution(brown, yellow):
     C1 = brown // 2 + 2
     C2 = brown + yellow
-    for height in range(3, int(C2**0.5) + 1):
-        weight = C1 - height
-        if weight * height == C2:
-            return [weight, height]
+    for Height in range(3, int(C2**0.5) + 1):
+        Weight = C1 - Height
+        if Weight * Height == C2:
+            return [Weight, Height]

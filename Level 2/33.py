@@ -22,7 +22,7 @@ def solution(n, t, m, p):
     Nums = "0123456789ABCDEF"
     # m*t 만큼 길이의 수열 나열.
     Result = ""
-    Idx = 0
+
     for i in range(m * t):
         if len(Result) == m * t:
             break

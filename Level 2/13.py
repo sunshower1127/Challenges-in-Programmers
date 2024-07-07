@@ -12,7 +12,7 @@ from math import gcd
 
 
 def solution(arr):
-    result = arr[0]
+    Result = arr[0]
     for a in arr[1:]:
-        result = result * a // gcd(result, a)
-    return result
+        Result = Result * a // gcd(Result, a)
+    return Result

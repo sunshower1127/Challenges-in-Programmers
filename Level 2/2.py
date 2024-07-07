@@ -11,16 +11,16 @@ from collections import deque
 
 
 def solution(s):
-    stack1 = deque()
+    Stack = deque()
     for c in s:
         if c == "(":
-            stack1.append("(")
+            Stack.append("(")
         else:
-            if not stack1:
+            if not Stack:
                 return False
-            stack1.pop()
+            Stack.pop()
 
-    if stack1:
+    if Stack:
         return False
     else:
         return True

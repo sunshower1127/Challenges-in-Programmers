@@ -14,9 +14,9 @@ tip : 반대로 생각해보자. 곱하기 -> 나누기
 
 
 def solution(n):
-    sum1 = 0
+    Sum = 0
     while n != 0:
         n, r = divmod(n, 2)
-        sum1 += r
+        Sum += r
 
-    return sum1
+    return Sum

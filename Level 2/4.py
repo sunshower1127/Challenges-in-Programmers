@@ -11,14 +11,14 @@ JadenCase 문자열 만들기
 def solution(s):
     s = s.lower()
 
-    str1 = ""
+    Str = ""
     for i in range(len(s)):
         if i == 0 or s[i - 1] == " ":
-            str1 += s[i].upper()
+            Str += s[i].upper()
         else:
-            str1 += s[i]
+            Str += s[i]
 
-    return str1
+    return Str
 
 
 def gptsolution(s: str):

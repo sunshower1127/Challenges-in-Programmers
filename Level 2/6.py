@@ -15,17 +15,17 @@ tip : 연속된 수의 합은 가우스 합으로 풀 수 있음 -> 시간복잡
 
 
 def solution(n):
-    cnt1 = 0
+    Cnt = 0
 
     def sum1(x, y):
         return (x + y) * (y - x + 1) // 2
 
     # sum1 = lambda x, y: (x + y) * (y - x + 1) // 2
 
-    for start in range(1, n + 1):
-        for end in range(start, n + 1):
-            if sum1(start, end) == n:
-                cnt1 += 1
-            elif sum1(start, end) > n:
+    for Begin in range(1, n + 1):
+        for End in range(Begin, n + 1):
+            if sum1(Begin, End) == n:
+                Cnt += 1
+            elif sum1(Begin, End) > n:
                 break
-    return cnt1
+    return Cnt

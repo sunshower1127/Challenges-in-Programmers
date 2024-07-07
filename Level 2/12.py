@@ -18,22 +18,22 @@ tip : 이게 좀 직관적이지 않은 그리디 문제임. 최대한 효율적
 def solution(people, limit):
     people.sort()
 
-    left = 0
-    right = len(people) - 1
-    cnt1 = 0
+    Left = 0
+    Right = len(people) - 1
+    Cnt = 0
     while True:
-        if left == right:
-            cnt1 += 1
-            return cnt1
+        if Left == Right:
+            Cnt += 1
+            return Cnt
 
-        if left > right:
-            return cnt1
+        if Left > Right:
+            return Cnt
 
-        if people[left] + people[right] > limit:
-            cnt1 += 1
-            right -= 1
+        if people[Left] + people[Right] > limit:
+            Cnt += 1
+            Right -= 1
             continue
 
-        left += 1
-        right -= 1
-        cnt1 += 1
+        Left += 1
+        Right -= 1
+        Cnt += 1

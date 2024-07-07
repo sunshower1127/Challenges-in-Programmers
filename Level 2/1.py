@@ -8,5 +8,5 @@
 
 
 def solution(s):
-    tuple1 = tuple(map(int, s.split(" ")))
-    return f"{min(tuple1)} {max(tuple1)}"
+    Tuple = tuple(map(int, s.split(" ")))
+    return f"{min(Tuple)} {max(Tuple)}"

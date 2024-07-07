@@ -12,26 +12,26 @@ from collections import deque
 
 
 def solution(s):
-    opposite = {"[": "]", "{": "}", "(": ")"}
+    Oppo = {"[": "]", "{": "}", "(": ")"}
     N = len(s)
     s = s * 2
-    cnt = 0
+    Cnt = 0
     for i in range(N):
-        stack = deque()
-        break1 = False
+        Stack = deque()
+        Break = False
         for j in range(N):
-            if s[i + j] in opposite:
-                stack.append(s[i + j])
+            if s[i + j] in Oppo:
+                Stack.append(s[i + j])
             else:
-                if stack and opposite[stack.pop()] == s[i + j]:
+                if Stack and Oppo[Stack.pop()] == s[i + j]:
                     continue
                 else:
-                    break1 = True
+                    Break = True
                     break
-        if not stack and not break1:
-            cnt += 1
+        if not Stack and not Break:
+            Cnt += 1
 
-    return cnt
+    return Cnt
 
 
 # deque.rotate(n) 를 사용해도 된다. n이 양수면 오른쪽 이동, n이 음수면 왼쪽이동.

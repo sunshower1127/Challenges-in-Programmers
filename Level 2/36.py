@@ -47,7 +47,3 @@ def solution(msg):
         if not Break:
             Result.append(Dict[msg[Idx : Idx + Len]])
             return Result
-
-
-# s가 3이고, v가 91임
-#

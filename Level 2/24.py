@@ -14,11 +14,11 @@ for문이 더 깔끔한 느낌이여서 굳이라는 생각이 드네요
 
 """
 
-from collections import Counter as counter
+from collections import Counter as cnter
 
 
 def solution(clothes):
-    Cnter = counter(zip(*clothes)[1])
+    Cnter = cnter(zip(*clothes)[1])
     Result = 1
     for Cnt in Cnter.values():
         Result *= Cnt + 1

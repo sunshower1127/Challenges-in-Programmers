@@ -10,14 +10,14 @@ tip : 원형으로 진행되면, 차례를 구하는건 divmod를 사용하면 �
 
 
 def solution(n, words):
-    last = words[0][-1]
-    set1 = set([words[0]])
+    Last = words[0][-1]
+    Set = set([words[0]])
     for i in range(1, len(words)):
-        if words[i][0] != last or words[i] in set1:
+        if words[i][0] != Last or words[i] in Set:
             q, r = divmod(i, n)
             return [r + 1, q + 1]
 
-        set1.add(words[i])
-        last = words[i][-1]
+        Set.add(words[i])
+        Last = words[i][-1]
 
     return [0, 0]

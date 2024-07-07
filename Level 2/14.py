@@ -12,8 +12,8 @@ tip3 : math.floor은 n // 2로 대체할 수 있다.
 
 
 def solution(n, a, b):
-    cnt = 0
+    Cnt = 0
     while a != b:
         a, b = (a + 1) // 2, (b + 1) // 2
-        cnt += 1
-    return cnt
+        Cnt += 1
+    return Cnt

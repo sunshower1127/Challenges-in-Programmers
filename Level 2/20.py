@@ -18,23 +18,26 @@ tip : 이렇게 연속된 부분을 이동하면서 합을 구하는 문제는 �
 
 """
 
-from collections import Counter
+from collections import Counter as cnter
 
 
 def solution(want, number, discount):
-    dict1 = dict(zip(want, number))
+    Dict = dict(zip(want, number))
 
-    cnt = 0
-    counter = Counter(discount[:10])
+    Cnt = 0
+    Cnter = cnter(discount[:10])
 
-    if counter == dict1:
-        cnt += 1
+    if Cnter == Dict:
+        Cnt += 1
 
     for i in range(10, len(discount)):
-        counter -= Counter([discount[i - 10]])
-        counter += Counter([discount[i]])
+        Cnter[discount[i - 10]] -= 1
+        if Cnter[discount[i - 10]] == 0:
+            del Cnter[discount[i - 10]]
 
-        if counter == dict1:
-            cnt += 1
+        Cnter[discount[i]] += 1
 
-    return cnt
+        if Cnter == Dict:
+            Cnt += 1
+
+    return Cnt

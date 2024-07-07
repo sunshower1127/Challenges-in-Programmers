@@ -30,23 +30,41 @@ if Counter[원소] == 0 : del Counter[원소]
 
 """
 
-from collections import Counter as counter
+from collections import Counter as cnter
 
 
 def solution(topping):
     Cnt = 0
-    LeftCounter = counter()
-    RightCounter = counter(topping)
-    for i, Each in enumerate(topping):
-        if Each not in LeftCounter:
-            LeftCounter[Each] = 0
-        LeftCounter[Each] += 1
+    LeftCnter = cnter()
+    RightCnter = cnter(topping)
+    for Each in topping:
+        if Each not in LeftCnter:
+            LeftCnter[Each] = 0
+        LeftCnter[Each] += 1
 
-        RightCounter[Each] -= 1
-        if RightCounter[Each] == 0:
-            del RightCounter[Each]
+        RightCnter[Each] -= 1
+        if RightCnter[Each] == 0:
+            del RightCnter[Each]
 
-        if len(LeftCounter) == len(RightCounter):
+        if len(LeftCnter) == len(RightCnter):
             Cnt += 1
 
     return Cnt
+
+
+"""
+
+for i in range(1, 7) -> 숫자 지정 가능.
+for i in range(len(Something))
+for Each in Something -> 위보다 직관적이고 짧은 코드.
+for i, _ in enumerate(Something) -> index만 필요할때.
+for _, Each in enumerate(Something) -> index가 필요없을때.
+
+무슨 방법이 우월하다 그런건 없음. 다 장점이 있고 단점이 있어서
+
+dp는 for i in range()를 반드시 써야하고
+일반적인 상황에선 뭐 for i in range가 맞긴한데
+복잡할때 Each가 주는 간소함도 무시할 수 없어서
+상황따라 쓰면 됩니다. 고민하는 시간도 아까움.
+
+"""

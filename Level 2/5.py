@@ -11,12 +11,12 @@
 
 
 def solution(s):
-    cnt_while = 0
-    cnt_count = 0
+    WhileCnt = 0
+    CountCnt = 0
     while s != "1":
-        cnt_while += 1
-        cnt_count += s.count("0")
+        WhileCnt += 1
+        CountCnt += s.count("0")
         s = s.replace("0", "")
         s = bin(len(s))[2:]
 
-    return [cnt_while, cnt_count]
+    return [WhileCnt, CountCnt]

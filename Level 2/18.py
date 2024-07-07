@@ -9,11 +9,11 @@ tip : 원형수열은 *로 늘려서 풀면 편할때가 있고, index에 /랑 %
 
 
 def solution(elements):
-    set1 = set()
+    Set = set()
     N = len(elements)
     elements = elements * 2
-    for len1 in range(1, N + 1):
+    for Len in range(1, N + 1):
         for i in range(N):
-            set1.add(sum(elements[i : i + len1]))
+            Set.add(sum(elements[i : i + Len]))
 
-    return len(set1)
+    return len(Set)
