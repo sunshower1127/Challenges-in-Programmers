@@ -26,7 +26,7 @@ i로 쭉 훑는데, 오른쪽 나머지 애들을 계속 계산해야함 -> 계�
 
 namedtuple 한 번 써봤는데 어떤지 모르겠네
 괜찮은거 같기도 하죠
-
+tuple 접근할떄 [0] [1] 이런식으로 접근하는게 아니라 .i .Price 이런식으로 접근할 수 있음.
 """
 
 from collections import deque, namedtuple
