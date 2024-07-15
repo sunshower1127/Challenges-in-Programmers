@@ -17,14 +17,15 @@ tip : heapq의 default는 최소힙이다.
 
 """
 
-from heapq import heapify, heappush, heappop
+from heapq import heapify, heappop, heappush
 
 
 def solution(scoville, K):
     Cnt = 0
     heapify(scoville)
 
-    f = lambda x, y: x + y * 2
+    def f(x, y):
+        return x + y * 2
 
     while True:
         First = heappop(scoville)

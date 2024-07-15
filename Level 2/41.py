@@ -39,7 +39,6 @@ def solution(prices):
     Result = [0] * N
 
     for i, Price in enumerate(prices):
-
         while Stack and Stack[-1].Price > Price:
             Result[Stack[-1].i] = i - Stack[-1].i
             Stack.pop()

@@ -20,7 +20,4 @@ def solution(s):
                 return False
             Stack.pop()
 
-    if Stack:
-        return False
-    else:
-        return True
+    return not Stack

@@ -21,7 +21,7 @@ def solution(k, dungeons):
     def DFS():
         nonlocal K, Max, Visited
         for i in range(N):
-            if Visited[i] or K < dungeons[i][0]:
+            if Visited[i] or dungeons[i][0] > K:
                 continue
 
         Visited[i] = True

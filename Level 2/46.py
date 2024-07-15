@@ -26,7 +26,6 @@ def solution(order):
             Queue.popleft()
             Result += 1
         elif Queue and Num > Queue[0]:
-
             while Num > Queue[0]:
                 Stack.append(Queue.popleft())
 

@@ -15,7 +15,7 @@ IN 했는데 OUT이 없으면 23:59에 OUT 했다고 여김
 
 차량이 IN하면 dict에 {차량 번호 : 출입시간}
 넣고
-OUT하면 dict에서 꺼내서 계산하면 되겠구만 
+OUT하면 dict에서 꺼내서 계산하면 되겠구만
 
 enumerate로 쓰고 안쓴다 -> 그냥 이걸로 하자 모르겠으면.
 
@@ -34,8 +34,8 @@ def TimeConvert(Str):
 
 
 def solution(fees, records):
-    Sum = dict()
-    InTime = dict()
+    Sum = {}
+    InTime = {}
     for Line in records:
         Time, Num, IO = Line.split(" ")
         Time = TimeConvert(Time)
@@ -56,11 +56,11 @@ def solution(fees, records):
 
         Sum[Num] += TimeConvert("23:59") - Time
 
-    Result = dict()
+    Result = {}
     for Num, DT in Sum.items():
         Result[Num] = fees[1]
 
-        if DT > fees[0]:
+        if fees[0] < DT:
             Result[Num] += ceil((DT - fees[0]) / fees[2]) * fees[3]
 
     return [Each[1] for Each in sorted(Result.items(), key=lambda x: x[0])]

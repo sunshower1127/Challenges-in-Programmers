@@ -8,8 +8,7 @@ F(0) = 0, F(1) = 1
 """
 
 
-def solution(n):
-    N = n
+def solution(N):
     Dp = [0] * (N + 1)
     Dp[:2] = 0, 1
 

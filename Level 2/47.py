@@ -18,7 +18,6 @@ def solution(Files):
     Nums = []
     Heads = []
     for File in Files:
-
         for i, c in enumerate(File):
             if c.isdigit():
                 BeginI = i
@@ -46,7 +45,7 @@ def solution(Files):
 """
 
 
-def solution(Files):
+def solution2(Files):
     def SortKey(File):
         for i, c in enumerate(File):
             if c.isdigit():
@@ -63,24 +62,3 @@ def solution(Files):
 
     Files.sort(key=SortKey)
     return Files
-
-
-"""
-
-아래는 정규식 이용인데 그냥 안하는게 좋을듯 저런걸 머릿속에 넣을 여유가 없다
-
-"""
-import re
-
-
-def solution(files):
-    # 정규식을 사용하여 파일명 분리
-    def sort_key(file):
-        head, number, _ = re.match(r"([a-z\- ]+)(\d{1,5})", file.lower()).groups()
-
-        return [head, int(number)]
-
-    # 파일명 정렬
-    sorted_files = sorted(files, key=sort_key)
-
-    return sorted_files

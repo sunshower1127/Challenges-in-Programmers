@@ -13,7 +13,6 @@ N행 4열 맵
 
 
 def solution(land):
-
     Dp = land[0][:]
 
     for i in range(1, len(land)):

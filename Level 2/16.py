@@ -11,7 +11,7 @@ tip : 원형으로 진행되면, 차례를 구하는건 divmod를 사용하면 �
 
 def solution(n, words):
     Last = words[0][-1]
-    Set = set([words[0]])
+    Set = {words[0]}
     for i in range(1, len(words)):
         if words[i][0] != Last or words[i] in Set:
             q, r = divmod(i, n)

@@ -30,7 +30,6 @@ def solution(numbers):
     Result = [-1] * N
     Stack = deque()
     for i in range(N):
-
         while Stack and numbers[Stack[-1]] < numbers[i]:
             Result[Stack.pop()] = numbers[i]
 
