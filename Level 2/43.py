@@ -1,51 +1,41 @@
 """
 
-스킬트리
+더 맵게
 
-skill에는 스킬트리 순서가 적혀있음 -> CBD면 반드시 C -> B -> D 순서대로 배워야함
+가장 안매운 음식 두개를 섞어서 더 매운 음식으로 만들고
+이과정을 반복해서 모든 음식의 스코빌 지수가 K 이상이 되는 최소 횟수
 
-선행스킬 순서 skill_trees가 주어질 때 가능한 스킬트리 개수를 return
+섞은 음식의 스코빌 지수 =
+    가장 맵지 않은 음식의 스코빌 지수 +
+    (두 번째로 맵지 않은 음식의 스코빌 지수 * 2)
 
-시간복잡도는 딱히 안따져도 되는듯.
+길이는 10^6
 
-26*20*26 이라서 뭐 해봤자 8000정도라서...
+계속해서 최솟값을 뽑아내야함 -> 최소힙
 
-근데 최적화는 그냥 set쓰면 됨. 아니면 dict로 반대방향 만들던가.
-
-
+tip : heapq의 default는 최소힙이다.
 
 """
 
+from heapq import heapify, heappop, heappush
 
-def solution(skill, skill_trees):
+
+def solution(scoville, K):
     Cnt = 0
-    Skills = set(skill)
+    heapify(scoville)
 
-    for SkillTree in skill_trees:
-        Str = ""
-        for c in SkillTree:
-            if c in Skills:
-                Str += c
+    def f(x, y):
+        return x + y * 2
 
-        if skill.find(Str) == 0:
-            Cnt += 1
+    while True:
+        First = heappop(scoville)
 
-    return Cnt
+        if First >= K:
+            return Cnt
 
+        if not scoville:
+            return -1
 
-# def solution(skill, skill_trees):
-#     Cnt = 0
-#     Dict = {Skill: i for i, Skill in enumerate(skill)}
-
-#     for SkillTree in skill_trees:
-#         Idx = 0
-#         for c in SkillTree:
-#             if Dict.get(c) is not None:
-#                 if Dict[c] == Idx:
-#                     Idx += 1
-#                 else:
-#                     break
-#         else:
-#             Cnt += 1
-
-#     return Cnt
+        Second = heappop(scoville)
+        heappush(scoville, f(First, Second))
+        Cnt += 1

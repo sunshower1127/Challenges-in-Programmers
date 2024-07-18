@@ -1,27 +1,42 @@
 """
 
-땅따먹기
+방문 길이
 
-N행 4열 맵
+xy -5~5의 맵이 있고
+UDLR로 이동함.
+맵을 넘어서 이동하는건 무시되고,
+이동한 길이를 구하는데, 이미 가본 길은 무시함.
 
-행에서 하나만 밟아서 쭉 내려왔을때 합의 최고 점수 구하기
+이미 가본 길 체크 -> set이 바람직하겠죠.
 
--> 전형적인 dp 문제.
+set에 넣을 수 있는 객체는 한정되어 있음
+조건 1. 변경 불가 -> 이건 그냥 내부적으로 구현
+조건 2. hash값 생성 기능 -> __hash__ 메서드 구현여부
 
+tuple, namedtuple가 거의 유일하게 set에 넣을 수 있는 컨테이너임.
+list하고 dict는 변경 가능 하기 때문에 못 넣음.
 
+아래 코드도 좀 더 복잡했으면 tuple대신 namedtuple을 사용했을듯.
 """
 
 
-def solution(land):
-    Dp = land[0][:]
+def solution(dirs):
+    y, x = 0, 0
+    dy = [0, 1, 0, -1]
+    dx = [1, 0, -1, 0]
+    DirToIdx = "RULD"
+    Paths = set()
+    for Dir in dirs:
+        i = DirToIdx.find(Dir)
+        ny = y + dy[i]
+        nx = x + dx[i]
 
-    for i in range(1, len(land)):
-        New = [0] * 4
-        New[0] = max(Dp[1], Dp[2], Dp[3]) + land[i][0]
-        New[1] = max(Dp[0], Dp[2], Dp[3]) + land[i][1]
-        New[2] = max(Dp[0], Dp[1], Dp[3]) + land[i][2]
-        New[3] = max(Dp[0], Dp[1], Dp[2]) + land[i][3]
+        if not (-5 <= ny <= 5 and -5 <= nx <= 5):
+            continue
 
-        Dp = New
+        Paths.add(((y, x), (ny, nx)))
+        Paths.add(((ny, nx), (y, x)))
 
-    return max(Dp)
+        y, x = ny, nx
+
+    return len(Paths) // 2

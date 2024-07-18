@@ -1,41 +1,52 @@
 """
 
-더 맵게
+주식가격
 
-가장 안매운 음식 두개를 섞어서 더 매운 음식으로 만들고
-이과정을 반복해서 모든 음식의 스코빌 지수가 K 이상이 되는 최소 횟수
+prices는 시간에 따른 주식 가격임.
 
-섞은 음식의 스코빌 지수 =
-    가장 맵지 않은 음식의 스코빌 지수 +
-    (두 번째로 맵지 않은 음식의 스코빌 지수 * 2)
+각 price마다 자신 이후로 몇초동안 값이 자신의 값 이상이었는지를 반환.
 
-길이는 10^6
+예)
+prices = [1, 2, 3, 2, 3]
 
-계속해서 최솟값을 뽑아내야함 -> 최소힙
+return = [4, 3, 1, 1, 0]
 
-tip : heapq의 default는 최소힙이다.
+바로 다음에 떨어지면 1초임.
 
+길이는 10^5. -> O(n^2)은 안됨.
+
+난 이런 스택류 문제 머리아파서 못풀겠음
+
+스택류 문제는 거꾸로 푸는게 아니라 스택에 저장해서 처리한다는 점에서 dp하고 결이 비슷한듯.
+
+그러니깐 스택문제 = 중복처리를 어떻게 할것인가 인듯
+
+i로 쭉 훑는데, 오른쪽 나머지 애들을 계속 계산해야함 -> 계속해서 중복이 일어남. -> O(n^2)
+-> i로 쭉 훑는데, Stack에 저장해가면서 훑음 -> O(n * Stack길이)로 압축 가능
+
+namedtuple 한 번 써봤는데 어떤지 모르겠네
+괜찮은거 같기도 하죠
+tuple 접근할떄 [0] [1] 이런식으로 접근하는게 아니라 .i .Price 이런식으로 접근할 수 있음.
 """
 
-from heapq import heapify, heappop, heappush
+from collections import deque, namedtuple
 
 
-def solution(scoville, K):
-    Cnt = 0
-    heapify(scoville)
+def solution(prices):
+    Tuple = namedtuple("Tuple", "i Price")
+    N = len(prices)
+    Stack = deque()
+    Result = [0] * N
 
-    def f(x, y):
-        return x + y * 2
+    for i, Price in enumerate(prices):
+        while Stack and Stack[-1].Price > Price:
+            Result[Stack[-1].i] = i - Stack[-1].i
+            Stack.pop()
 
-    while True:
-        First = heappop(scoville)
+        Stack.append(Tuple(i=i, Price=Price))
 
-        if First >= K:
-            return Cnt
+    while Stack:
+        Result[Stack[-1][0]] = N - 1 - Stack[-1][0]
+        Stack.pop()
 
-        if not scoville:
-            return -1
-
-        Second = heappop(scoville)
-        heappush(scoville, f(First, Second))
-        Cnt += 1
+    return Result

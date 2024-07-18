@@ -1,42 +1,51 @@
 """
 
-방문 길이
+스킬트리
 
-xy -5~5의 맵이 있고
-UDLR로 이동함.
-맵을 넘어서 이동하는건 무시되고,
-이동한 길이를 구하는데, 이미 가본 길은 무시함.
+skill에는 스킬트리 순서가 적혀있음 -> CBD면 반드시 C -> B -> D 순서대로 배워야함
 
-이미 가본 길 체크 -> set이 바람직하겠죠.
+선행스킬 순서 skill_trees가 주어질 때 가능한 스킬트리 개수를 return
 
-set에 넣을 수 있는 객체는 한정되어 있음
-조건 1. 변경 불가 -> 이건 그냥 내부적으로 구현
-조건 2. hash값 생성 기능 -> __hash__ 메서드 구현여부
+시간복잡도는 딱히 안따져도 되는듯.
 
-tuple, namedtuple가 거의 유일하게 set에 넣을 수 있는 컨테이너임.
-list하고 dict는 변경 가능 하기 때문에 못 넣음.
+26*20*26 이라서 뭐 해봤자 8000정도라서...
 
-아래 코드도 좀 더 복잡했으면 tuple대신 namedtuple을 사용했을듯.
+근데 최적화는 그냥 set쓰면 됨. 아니면 dict로 반대방향 만들던가.
+
+
+
 """
 
 
-def solution(dirs):
-    y, x = 0, 0
-    dy = [0, 1, 0, -1]
-    dx = [1, 0, -1, 0]
-    DirToIdx = "RULD"
-    Paths = set()
-    for Dir in dirs:
-        i = DirToIdx.find(Dir)
-        ny = y + dy[i]
-        nx = x + dx[i]
+def solution(skill, skill_trees):
+    Cnt = 0
+    Skills = set(skill)
 
-        if not (-5 <= ny <= 5 and -5 <= nx <= 5):
-            continue
+    for SkillTree in skill_trees:
+        Str = ""
+        for c in SkillTree:
+            if c in Skills:
+                Str += c
 
-        Paths.add(((y, x), (ny, nx)))
-        Paths.add(((ny, nx), (y, x)))
+        if skill.find(Str) == 0:
+            Cnt += 1
 
-        y, x = ny, nx
+    return Cnt
 
-    return len(Paths) // 2
+
+# def solution(skill, skill_trees):
+#     Cnt = 0
+#     Dict = {Skill: i for i, Skill in enumerate(skill)}
+
+#     for SkillTree in skill_trees:
+#         Idx = 0
+#         for c in SkillTree:
+#             if Dict.get(c) is not None:
+#                 if Dict[c] == Idx:
+#                     Idx += 1
+#                 else:
+#                     break
+#         else:
+#             Cnt += 1
+
+#     return Cnt
