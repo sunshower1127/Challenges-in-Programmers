@@ -14,14 +14,13 @@ tip : 머릿속에서 복잡한 함수 쥐어짜내는것보다
 """
 
 
-def SortBy(a, b):
-    Sorted = sorted(zip(a, b), reverse=True)
-    return zip(*Sorted)[0]
+# def SortBy(List, Key):
+#     Sorted = sorted(zip(Key, List), reverse=True)
+#     return list(zip(*Sorted))[1]
 
 
 def solution(Nums):
-    Strs = [str(Num) * 3 for Num in Nums]
-
-    Nums = SortBy(Nums, Strs)
-
-    return "".join(str(Num) for Num in Nums)
+    Nums = sorted(map(str, Nums), key=lambda x: x * 3, reverse=True)
+    if Nums[0] == "0":
+        return "0"
+    return "".join(Nums)
