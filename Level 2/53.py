@@ -19,8 +19,8 @@ tip : 머릿속에서 복잡한 함수 쥐어짜내는것보다
 #     return list(zip(*Sorted))[1]
 
 
-def solution(Nums):
-    Nums = sorted(map(str, Nums), key=lambda x: x * 3, reverse=True)
-    if Nums[0] == "0":
+def solution(nums):
+    nums = sorted(map(str, nums), key=lambda x: x * 3, reverse=True)
+    if nums[0] == "0":
         return "0"
-    return "".join(Nums)
+    return "".join(nums)

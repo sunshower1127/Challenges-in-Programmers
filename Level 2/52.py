@@ -13,19 +13,19 @@
 """
 
 
-def solution(Nums):
-    Result = []
-    for Num in Nums:
-        Str = list("0" + bin(Num)[2:])
-        for i in reversed(range(len(Str))):
-            if Str[i] == "0":
-                Str[i] = "1"
-                if i + 1 < len(Str):
-                    Str[i + 1] = "0"
+def solution(nums):
+    result = []
+    for num in nums:
+        bin_str_arr = list("0" + bin(num)[2:])
+        for i in reversed(range(len(bin_str_arr))):
+            if bin_str_arr[i] == "0":
+                bin_str_arr[i] = "1"
+                if i + 1 < len(bin_str_arr):
+                    bin_str_arr[i + 1] = "0"
                 break
 
-        Result.append(int("".join(Str), 2))
-    return Result
+        result.append(int("".join(bin_str_arr), 2))
+    return result
 
 
 """
