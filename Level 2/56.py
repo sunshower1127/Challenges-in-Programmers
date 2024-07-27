@@ -8,6 +8,7 @@ dfs로 그냥 전부 돌아보면서, 각 부분마다 체크하기.
 중복된 애들을 dfs 돌려야해서...
 익숙하지 않아서 좀 많이 비효율적인 코드가 된거 같은데
 다음에 다른 사람들 풀이나 ai풀이 보면서 정리해봅시다.
+22분 걸림
 """
 
 
@@ -45,4 +46,28 @@ def solution(nums):
                 path.pop()
 
     dfs(0)
+    return len(prime_set)
+
+
+#  AI 발 코드
+
+from itertools import permutations
+
+
+def is_prime2(num):
+    if num <= 1:
+        return False
+    return all(num % i != 0 for i in range(2, int(num**0.5) + 1))
+
+
+def solution2(nums):
+    prime_set = set()
+    N = len(nums)
+
+    for length in range(1, N + 1):
+        for perm in permutations(nums, length):
+            num = int("".join(perm))
+            if is_prime2(num):
+                prime_set.add(num)
+
     return len(prime_set)
