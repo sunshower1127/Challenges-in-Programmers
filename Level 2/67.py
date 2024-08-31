@@ -9,7 +9,7 @@
 """
 
 
-def solution(N, road, K):
+def dfs_solution(N, road, K):
     visited = set()
     result = set()
     dist_sum = 0
