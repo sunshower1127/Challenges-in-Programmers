@@ -7,7 +7,8 @@
 그중에서 해당 문자열을 찾으면 반환.
 재생시간, 음악제목 순으로 정렬
 
-일단 실패함. 부분케이스만 해결하면 될듯.
+tip : c++을 제외한 다른 언어에서는 문자열은 readonly이다. 리스트로 바꾸거나 그냥 새로 써야함.
+
 """
 
 
@@ -42,3 +43,5 @@ def solution(m, musicinfos):
         notes = notes * q + notes[:r]
         if m in notes:
             return title
+
+    return "(None)"
