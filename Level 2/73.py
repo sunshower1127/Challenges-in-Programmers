@@ -1,4 +1,8 @@
 """
+
+미로 탈출
+
+
 다시 지나갈 수 있다는게 핵심이네요
 dfs가 아니라서 경로를 모름
 그냥 레버 유무만 넣읍시다.
@@ -32,7 +36,7 @@ def solution(maps):
         ##
 
     def bfs(start, end):
-        sy, sx = find_value(start)
+        sy, sx = find_value(start) or (0, 0)
 
         dists = [[0] * X for _ in range(Y)]
         dists[sy][sx] = 1
