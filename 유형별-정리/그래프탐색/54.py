@@ -1,43 +1,33 @@
-"""
-재귀. dfs
+"""쿼드압축 후 개수 세기
 
-재귀 dfs 동의합니다.
-0하고 1 개수를 잘 리턴해야겠네
+4둥분해서 확인하고 4등분해서 확인하고.... 무한반복
 
-2차원 배열안에 모든 수가 1 혹은 0 인... -> 그냥 for문 써
+이게 근데 dfs라고 볼 수 있나? 그냥 분할정복 아닌가?
+흠..
 
-굳 오늘은 여기까지 풂.
+
 """
 
 
 def solution(arr):
-    cnt0 = cnt1 = 0
     N = len(arr)
+    stack = []
+    result = [0, 0]
 
-    def dfs(y, x, n):
-        nonlocal cnt0, cnt1
+    stack.append(((0, 0), N))
 
-        def arr_is_all(v):
-            for ny in range(y, y + n):
-                for nx in range(x, x + n):
-                    if arr[ny][nx] != v:
-                        return False
-            return True
+    while stack:
+        (y, x), n = stack.pop()
 
-        if arr_is_all(0):
-            cnt0 += 1
-            return
-
-        if arr_is_all(1):
-            cnt1 += 1
-            return
+        target = arr[y][x]
+        if all(arr[y + dy][x + dx] == target for dy in range(n) for dx in range(n)):
+            result[target] += 1
+            continue
 
         n //= 2
-        dfs(y, x, n)
-        dfs(y + n, x, n)
-        dfs(y, x + n, n)
-        dfs(y + n, x + n, n)
+        stack.append(((y, x), n))
+        stack.append(((y + n, x), n))
+        stack.append(((y, x + n), n))
+        stack.append(((y + n, x + n), n))
 
-    dfs(0, 0, N)
-
-    return [cnt0, cnt1]
+    return result

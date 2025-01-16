@@ -1,64 +1,47 @@
-"""
+"""전력망을 둘로 나누기
 
-전력망을 둘로 나누기
+100 * 100
 
-전선 하나 끊었을때, 송전탑개수의 차의 최소를 구하시오
+그냥 브루트네요
+거기다 이제 트리 탐색을 더한
+검색이 용이해야해서 set에다가 집어넣읍시다.
+암튼 그래프 탐색 맞음. 굳.
 
-n=100이고, 대충 e,v가 100개씩임.
-
-그냥 하나 끊어서, 양쪽 탐색 -> 100 100 이니깐 뭐 100000정도? -> 가능
-
-1. 양쪽 탐색할 필요 없음 -> 한쪽만 구하고, 어차피 다 연결되어있으니깐 n - cnt 하면 됨.
-2. visited를 set으로 바꾸면, in연산이 O(1)이라서 더 빠름.
+defaultdict쓰면 엄청 편하네요 굳.
 
 """
+
+from collections import defaultdict
 
 
 def solution(n, wires):
-    answer = 101
-    banned = 0
-    visited = []
+    min_gap = float("inf")
 
-    def dfs(v):
-        visited.append(v)
-        for a, b in wires:
-            if a == v and b != banned and b not in visited:
-                dfs(b)
-            if b == v and a != banned and a not in visited:
-                dfs(a)
+    new_wires = defaultdict(set)
+    for node1, node2 in wires:
+        new_wires[node1].add(node2)
+        new_wires[node2].add(node1)
 
-    for a, b in wires:
-        visited = []
-        banned = b
-        dfs(a)
-        cnta = len(visited)
+    for cut in wires:
+        visited = [False] * (n + 1)
 
-        visited = []
-        banned = a
-        dfs(b)
-        cntb = len(visited)
+        stack = [cut[0]]
+        visited[cut[0]] = True
+        visited[cut[1]] = True  # 반대편이라서 나중에 1 뺴줘야함
 
-        answer = min(answer, abs(cnta - cntb))
+        while stack:
+            node = stack.pop()
 
-    return answer if answer != 101 else -1
+            for new_node in new_wires[node]:
+                if visited[new_node]:
+                    continue
 
+                visited[new_node] = True
+                stack.append(new_node)
 
-def solution2(n, wires):
-    answer = n
+        size = visited.count(True) - 1  # 반대편 노드 한개 빼주기
+        oppo_size = n - size
 
-    def dfs(v, banned, visited):
-        visited.add(v)
-        for a, b in wires:
-            if a == v and b != banned and b not in visited:
-                dfs(b, banned, visited)
-            if b == v and a != banned and a not in visited:
-                dfs(a, banned, visited)
+        min_gap = min(min_gap, abs(size - oppo_size))
 
-    for a, b in wires:
-        visited = set()
-        dfs(a, b, visited)
-        cnta = len(visited)
-        cntb = n - cnta
-        answer = min(answer, abs(cnta - cntb))
-
-    return answer
+    return min_gap

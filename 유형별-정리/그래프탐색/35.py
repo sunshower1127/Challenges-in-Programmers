@@ -1,12 +1,11 @@
-"""
+"""게임 맵 최단거리
 
-게임 맵 최단거리
+전형적인 bfs
 
-maps에서 0은 벽, 1은 길
+근데 디테일이 좀 많네요. 실수하기 좋을듯.
 
-(1,1)에서 출발해서 (n,m)까지 가는 최단거리 -> 없으면 -1
-
-tip : 최단경로 -> bfs
+1. maps에서 1은 갈 수 있는 길, 0은 벽이다. (보통은 반대긴함)
+2. maps를 계속해서 업데이트해줘야함.
 
 """
 
@@ -14,32 +13,31 @@ from collections import deque
 
 
 def solution(maps):
-    N = len(maps)
-    M = len(maps[0])
-    DY = [1, 0, -1, 0]
-    DX = [0, 1, 0, -1]
+    height = len(maps)
+    width = len(maps[0])
 
-    Dist = [[0] * M for _ in range(N)]
+    q = deque()
+    q.append(((0, 0), 2))
+    maps[0][0] = 2
 
-    Queue = deque([(1, 1)])
-    while Queue:
-        y, x = Queue.popleft()
+    DY = [0, 1, 0, -1]
+    DX = [1, 0, -1, 0]
 
-        for i in range(4):
-            Ny = y + DY[i]
-            Nx = x + DX[i]
+    while q:
+        (y, x), dist = q.popleft()
 
-            if not (1 <= Ny <= N) or not (1 <= Nx <= M):
+        for dy, dx in zip(DY, DX):
+            ny = y + dy
+            nx = x + dx
+
+            if not (0 <= ny < height and 0 <= nx < width):
                 continue
-
-            if maps[Ny - 1][Nx - 1] == 0:
+            if maps[ny][nx] != 1:
                 continue
+            if (ny, nx) == (height - 1, width - 1):
+                return dist
 
-            if Dist[Ny - 1][Nx - 1] == 0:
-                Dist[Ny - 1][Nx - 1] = Dist[y - 1][x - 1] + 1
-                Queue.append((Ny, Nx))
+            maps[ny][nx] = dist + 1
+            q.append(((ny, nx), dist + 1))
 
-    if Dist[N - 1][M - 1] == 0:
-        return -1
-    else:
-        return Dist[N - 1][M - 1] + 1
+    return -1

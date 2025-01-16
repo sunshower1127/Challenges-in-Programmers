@@ -1,35 +1,42 @@
+"""피로도
+
+최대한 많이 던전 탐색
+
+k = 현재피로도
+dungeons = [[최소 필요 피로도, 소모 피로도]]
+
+어떤 애부터 방문해야하는지 고려해야하고,
+경로의 최대값을 찾아내야하기때문에
+dfs 굳이 안써도 됨.
+
+---
+2회차
+bool[] 은 비트연산으로 바꿀 수 있다. 파이썬에선 무적임.
+
 """
 
-피로도
-
-dungeons에는 [최소 필요 피로도, 소모 피로도] 가 담긴 리스트가 있음.
-
-유저의 초기 피로도가 k로 주어짐.
-이 때 최대로 돌 수 있는 던전 개수를 구하자.
-
-길이가 변하는 경우의 수 -> dfs, bfs
-
-"""
+from collections import deque
 
 
 def solution(k, dungeons):
-    N = len(dungeons)
-    K = k
-    Visited = [False] * N
-    Max = 0
+    result = 0
 
-    def DFS():
-        nonlocal K, Max, Visited
-        for i in range(N):
-            if Visited[i] or dungeons[i][0] > K:
+    q = deque()
+    q.append((k, 0))
+    while q:
+        fatigue, visited = q.popleft()
+
+        cnt = 0
+        for i, dungeon in enumerate(dungeons):
+            if visited & 1 << i:
+                continue
+            if fatigue < dungeon[0]:
                 continue
 
-        Visited[i] = True
-        K -= dungeons[i][1]
-        Max = max(Max, Visited.count(True))
-        DFS()
-        Visited[i] = False
-        K += dungeons[i][1]
+            cnt += 1
+            q.append((fatigue - dungeon[1], visited | 1 << i))
 
-    DFS()
-    return Max
+        if cnt == 0:
+            result = max(result, bin(visited).count("1"))
+
+    return result

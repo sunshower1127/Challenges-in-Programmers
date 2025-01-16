@@ -1,61 +1,40 @@
+"""메뉴 리뉴얼
+
+메뉴에서 공통점을 뽑아낸다라..
+그냥 뽑아내면 될거갈은데
+메모라이제이션이 되나?
+
+아하 sorted 리턴형은 list네요
+
+TODO: 여기서 combinations를 직접 만들면 메모라이제이션 쓴 그래프 탐색으로 풀 수 있을듯.
 """
 
-메뉴 리뉴얼(카카오)
-
-손님이 단품 메뉴를 시킴.(2개이상)
-
-그래서 2명 이상의 손님에게 받은 메뉴조합을 세트메뉴로 낼거임.
-
-주문은 20개. 하나당 길이는 10. 메뉴 개수는 알파벳 개수-> 26?
-
-course에는 이제 메뉴 길이가 들어있고, -> 같은 메뉴길이에 주문 개수가 동일하면 그냥 다 집어넣기.
-
-result에 사전순 오름차순 정렬해서 리턴.
-
-어찌됐던 nCk를 해야됨. -> 10C5 -> 2927  = 36 7 = 252 * 20 = 500정도
-nCk 어떻게 만듦? 어... nCk = 이게 아니지 나는 경우의 수를 만들어야하는데
-그냥 노가다 하면 될듯.
-
-"""
+from collections import Counter
+from itertools import combinations
 
 
 def solution(orders, course):
-    path = ""
-    cnt_dict = {}
-
-    def dfs(arr, start, n):
-        nonlocal path, cnt_dict
-        if n == 0:
-            if path not in cnt_dict:
-                cnt_dict[path] = 0
-            cnt_dict[path] += 1
-            return
-
-        for i in range(start, len(arr) - n + 1):
-            path += arr[i]
-            dfs(arr, i + 1, n - 1)
-            path = path[:-1]
-        ##
-
     result = []
+    for num in course:
+        cnter = Counter()
 
-    for n in range(len(course)):
         for order in orders:
-            dfs(sorted(order), 0, course[n])
+            for comb in combinations(order, num):
+                string = "".join(sorted(comb))
+                cnter[string] += 1
 
-        it = sorted(cnt_dict.items(), reverse=True, key=lambda x: x[1])
-        for i, (k, v) in enumerate(it):
-            if i == 0:
-                if v == 1:
-                    break
-                max_v = v
-            elif v != max_v:
+        sorted_items = sorted(cnter.items(), reverse=True, key=lambda x: x[1])
+        if not sorted_items:
+            continue
+
+        max_cnt = sorted_items[0][1]
+        if max_cnt == 1:
+            continue
+
+        for name, cnt in sorted_items:
+            if cnt != max_cnt:
                 break
-            result.append(k)
-            ##
-
-        cnt_dict = {}
-        ##
+            result.append(name)
 
     result.sort()
     return result
