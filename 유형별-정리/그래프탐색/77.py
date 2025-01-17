@@ -1,45 +1,58 @@
 """거리두기 확인하기
 
-P사이에 거리를 보고, 이제 길찾기죠 제가 봤을때
-그냥 P를 탐색하면 될거 같은데
-너무 쉽긴한데 일단 풀어볼게요
+맨해튼 거리가 2이하인 애 찾아내기.
+어떤 애가 있으면 선택해서 2만큼 전진 시켜보기.
+각자 그냥 탐색하다가 어 P가 있어? 그럼 바로 return 0
 
-
+확실히 함수로 끊어서 return 처리하는게 중요한 문제였음.
 """
 
-
-def 거리두기(place):
-    for y in range(5):
-        for x in range(5):
-            if place[y][x] == "P" and search(place, y, x):
-                return 0
-    return 1
+from collections import deque
 
 
-dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
+def alert(sy, sx, place):
+    q = deque()
+    q.append((sy, sx, 0))
 
+    visited = [[False] * 5 for _ in range(5)]
+    visited[sy][sx] = True
 
-def search(place, y, x):
-    for dir in dirs:
-        ny, nx = y + dir[0], x + dir[1]
-        if not (0 <= ny < 5 and 0 <= nx < 5) or place[ny][nx] == "X":
+    DY = [1, 0, -1, 0]
+    DX = [0, 1, 0, -1]
+
+    while q:
+        y, x, dist = q.popleft()
+
+        if dist == 2:
             continue
-        if place[ny][nx] == "P":
-            return True
 
-        for dir in dirs:
-            nny, nnx = ny + dir[0], nx + dir[1]
-            if (
-                (nny, nnx) == (y, x)
-                or not (0 <= nny < 5 and 0 <= nnx < 5)
-                or place[nny][nnx] == "X"
-            ):
+        for dy, dx in zip(DY, DX):
+            ny, nx = y + dy, x + dx
+
+            if not (0 <= ny < 5 and 0 <= nx < 5):
                 continue
-            if place[nny][nnx] == "P":
+            if visited[ny][nx]:
+                continue
+            if place[ny][nx] == "X":
+                continue
+            if place[ny][nx] == "P":
                 return True
+
+            q.append((ny, nx, dist + 1))
+            visited[ny][nx] = True
 
     return False
 
 
+def search_place(place):
+    for y in range(5):
+        for x in range(5):
+            if place[y][x] == "P":
+                if alert(y, x, place):
+                    return 0
+
+    return 1
+
+
 def solution(places):
-    return [거리두기(place) for place in places]
+    return [search_place(place) for place in places]

@@ -1,71 +1,60 @@
-"""
+"""배달
 
-배달
+다익스트라라고 하네요
 
-1번마을에서 거리가 K 이하인 마을의 개수 구하기
+다익스트라 -> 특정 노드에부터 다른 노드까지의 모든 거리를 구할 수 있음.
 
-총 거리 구하는거니깐 dfs가 맞는거 같죠
+도로가 2000개. 마을이 50개
 
-아니 다익스트라도 디테일이 좀 중요하네
+굳이 최소힙으로 최적화 안해도 되긴함.
 
-1. 시작 노드로 다시 가면 안됨
+다익스트라가 내가 이해하기로는
+방문한 노드 집합은 각각 자신의 최소거리를 알고 있고
+방문하지 않은 노드 집합과 방문한 노드 집합간의 거리중에서 최소만 선택해나가면
+된다는거 같은데
+방문한 노드 집합과 방문안한 노드 집합 사이의 엣지들은 재사용 가능하니깐 최소힙에다 넣으면 된다.
 
-2. 아직 모름 근데 뭔가 또 디테일이 있나봄 -> 최대거리를 계속 더하면 수가 커짐.
-
-최대값 계산하기 귀찮고, 또 로깅할때 float("inf")는 숫자가 아니라 inf 라고 나오니깐 자주 쓰도록 하자.
-
-if가 중첩일때 and로 저렇게 푸는것도 좋긴한데
-저러면 로깅이 불편하지 않나
-그냥 죄다 not 처리해버리는게 나을수도
+TODO: 다익스트라 나중에 한 번 더 정비해서 보기. 일단 포기
 """
 
 from heapq import heappop, heappush
 
 
-def solution(N, road, K):
-    road += [[b, a, dist] for a, b, dist in road]
+def solution(N, roads, K):
+    road_dists = [[float("inf")] * (N + 1) for _ in range(N + 1)]
 
-    dists = [float("inf")] * (N + 1)
-    min_heap = [(0, 1)]
+    for a, b, dist in roads:
+        road_dists[a][b] = min(road_dists[a][b], dist)
+        road_dists[b][a] = min(road_dists[b][a], dist)
+
+    visited = set()
+    unvisited = set(range(1, N + 1))
+
+    min_heap = [(0, 0, 1)]
+    min_dists = [float("inf")] * (N + 1)
+    min_dists[0] = 0
 
     while min_heap:
-        dist, node = heappop(min_heap)
+        dist, node_start, node_end = heappop(min_heap)
 
-        for from_node, new_node, new_dist in road:
-            if not (from_node == node and new_node != 1):
-                print("1번 조건 실패")
+        if node_end not in unvisited:
+            continue
+
+        new_dist = min_dists[node_start] + dist
+
+        if new_dist >= min_dists[node_end]:
+            continue
+
+        min_dists[node_end] = new_dist
+
+        visited.add(node_end)
+        unvisited.remove(node_end)
+
+        for new_node in unvisited:
+            road_dist = road_dists[new_node][node_end]
+            if road_dist == float("inf"):
                 continue
-            if (total_dist := dist + new_dist) >= dists[new_node]:
-                print("2번 조건 실패")
-                continue
 
-            dists[new_node] = total_dist
-            heappush(min_heap, (total_dist, new_node))
-        ##
+            heappush(min_heap, (road_dist, node_end, new_node))
 
-    return len([0 for dist in dists if dist <= K]) + 1
-    ##
-
-
-def dfs_solution(N, road, K):
-    visited = set()
-    result = set()
-    dist_sum = 0
-
-    def dfs(v):
-        nonlocal dist_sum
-        for a, b, dist in road:
-            if a == v and b not in visited and dist_sum + dist <= K:
-                visited.add(b)
-                result.add(b)
-                dist_sum += dist
-                dfs(b)
-                visited.remove(b)
-                dist_sum -= dist
-        ##
-
-    visited.add(1)
-    result.add(1)
-    dfs(1)
-
-    return len(result)
+    return [min_dist <= K for min_dist in min_dists].count(True) - 1

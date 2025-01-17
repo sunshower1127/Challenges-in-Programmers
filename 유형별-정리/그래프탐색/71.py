@@ -1,53 +1,46 @@
+"""무인도 여행
+
+면적구하기는 dfs, bfs 뭘 써도 똑같음.
+
 """
 
-무인도 여행
 
-전형적인 이제 dfs문제?
-bfs든 dfs든 상관 없을듯.
+def get_food_amount(sy, sx, height, width, maps, visited):
+    stack = [(sy, sx)]
+    DY = [1, 0, -1, 0]
+    DX = [0, 1, 0, -1]
+    food_amount = int(maps[sy][sx])
+    visited[sy][sx] = True
 
-X는 바다, 숫자는 땅
-각 땅의 넓이를 구하고, 오름차순으로 정렬해서 리턴
+    while stack:
+        y, x = stack.pop()
 
-tip 1: setrecursionlimit 진짜 함수명 당황스럽긴하다
-tip 2: str를 수정할게 아니라면 굳이 list로 안바꿔도 됨
-tip 3: 좌표문제는 왠만하면 bfs로 풀자.
-"""
-
-from sys import setrecursionlimit
-
-
-def solution(maps):
-    setrecursionlimit(10**8)
-    Y = len(maps)
-    X = len(maps[0])
-    visited = [[False] * X for _ in range(Y)]
-    maps = list(map(list, maps))
-    result = []
-    dirs = [(1, 0), (-1, 0), (0, 1), (0, -1)]
-
-    def dfs(y, x):
-        nonlocal dfs_sum
-        dfs_sum += int(maps[y][x])
-        visited[y][x] = True
-
-        for dy, dx in dirs:
+        for dy, dx in zip(DY, DX):
             ny, nx = y + dy, x + dx
-            if not (0 <= ny < Y and 0 <= nx < X):
-                continue
-            if visited[ny][nx]:
+
+            if not (0 <= ny < height and 0 <= nx < width):
                 continue
             if maps[ny][nx] == "X":
                 continue
+            if visited[ny][nx]:
+                continue
 
-            dfs(ny, nx)
+            stack.append((ny, nx))
+            visited[ny][nx] = True
+            food_amount += int(maps[ny][nx])
 
-    for y in range(Y):
-        for x in range(X):
+    return food_amount
+
+
+def solution(maps):
+    height = len(maps)
+    width = len(maps[0])
+    visited = [[False] * width for _ in range(height)]
+    result = []
+
+    for y in range(height):
+        for x in range(width):
             if maps[y][x] != "X" and not visited[y][x]:
-                dfs_sum = 0
-                dfs(y, x)
-                result.append(dfs_sum)
-        ##
+                result.append(get_food_amount(y, x, height, width, maps, visited))
 
-    result.sort()
-    return result if result else [-1]
+    return sorted(result) if result else [-1]
