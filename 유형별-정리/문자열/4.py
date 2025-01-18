@@ -1,25 +1,13 @@
-"""
+"""JadenCase 문자열 만들기
 
-JadenCase 문자열 만들기
-
-"for the last week" -> "For The Last Week"
-간단
+python의 lower, upper는 그냥 문자열 안에 뭐가 들어있든 싹다 작동시키고
+capitalize는 첫 단어만 작동함.
 
 """
+
+import re
 
 
 def solution(s):
-    s = s.lower()
-
-    Str = ""
-    for i in range(len(s)):
-        if i == 0 or s[i - 1] == " ":
-            Str += s[i].upper()
-        else:
-            Str += s[i]
-
-    return Str
-
-
-def gptsolution(s: str):
-    return " ".join([word.capitalize() for word in s.split()])
+    s = re.sub(r"\w+", lambda m: m.group(0).capitalize(), s)
+    return s
