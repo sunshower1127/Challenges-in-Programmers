@@ -1,27 +1,20 @@
-"""
+"""땅따먹기
 
-땅따먹기
-
-N행 4열 맵
-
-행에서 하나만 밟아서 쭉 내려왔을때 합의 최고 점수 구하기
-
--> 전형적인 dp 문제.
-
-
+range를 set에다 넣기 -> {*range(4)}
+그냥 아이템 하나 set에다 넣기 -> {x}
 """
 
 
 def solution(land):
-    Dp = land[0][:]
+    height = len(land)
+    width = len(land[0])
+    dp = land[0][:]
 
-    for i in range(1, len(land)):
-        New = [0] * 4
-        New[0] = max(Dp[1], Dp[2], Dp[3]) + land[i][0]
-        New[1] = max(Dp[0], Dp[2], Dp[3]) + land[i][1]
-        New[2] = max(Dp[0], Dp[1], Dp[3]) + land[i][2]
-        New[3] = max(Dp[0], Dp[1], Dp[2]) + land[i][3]
+    for y in range(1, height):
+        new = [0] * 4
+        for x in range(width):
+            new[x] = land[y][x] + max(dp[ox] for ox in ({*range(4)} - {x}))
 
-        Dp = New
+        dp = new
 
-    return max(Dp)
+    return max(dp)

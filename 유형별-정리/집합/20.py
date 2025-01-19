@@ -1,43 +1,54 @@
-"""
+"""XYZ 마트
 
-할인 행사
-
-want ["banana", "apple"]
-number [3, 2]
-이면
-banana 3개, apple 2개를 사야한다는 뜻이다.
-
-discount엔 날짜별로 할인 하는 품목이 하나씩 써져있다.
-
-discount에서 10일연속으로 딱 꺼냈을때, 원하는 품목과 개수가 모두 들어있다면 cnt+1
-해서 cnt를 구해보자.
-
-tip : 이렇게 연속된 부분을 이동하면서 합을 구하는 문제는 복잡도를 생각한다면 투포인터가 낫다.
-
-근데 여기서 Counter 시간복잡도가 좀 의심되네
+어쩌다보니 dict 총 정리가 되버림
 
 """
 
-from collections import Counter as cnter
+from collections import Counter, defaultdict
+
+
+def dict_diff(dict_a, dict_b):
+    keys = {*dict_a.keys()} | {*dict_b.keys()}
+
+    dict_c = {}
+    for key in keys:
+        value = dict_a.get(key, 0) - dict_b.get(key, 0)
+        if value != 0:
+            dict_c[key] = value
+
+    return dict_c
+
+
+def update_dict_value(dic, key, v):
+    dic[key] += v
+    if dic[key] == 0:
+        del dic[key]
 
 
 def solution(want, number, discount):
-    Dict = dict(zip(want, number))
+    result = 0
+    items_to_buy = []
+    for name, num in zip(want, number):
+        items_to_buy += [name] * num
 
-    Cnt = 0
-    Cnter = cnter(discount[:10])
+    wanted_counter = Counter(items_to_buy)
 
-    if Cnter == Dict:
-        Cnt += 1
+    discount_counter = Counter(discount[:10])
 
-    for i in range(10, len(discount)):
-        Cnter[discount[i - 10]] -= 1
-        if Cnter[discount[i - 10]] == 0:
-            del Cnter[discount[i - 10]]
+    missing = dict_diff(discount_counter, wanted_counter)
+    missing = defaultdict(int, missing)
 
-        Cnter[discount[i]] += 1
+    if not missing:
+        result += 1
 
-        if Cnter == Dict:
-            Cnt += 1
+    for i in range(1, len(discount) - 10 + 1):
+        old_one = discount[i - 1]
+        new_one = discount[i + 9]
 
-    return Cnt
+        update_dict_value(missing, old_one, -1)
+        update_dict_value(missing, new_one, 1)
+
+        if not missing:
+            result += 1
+
+    return result

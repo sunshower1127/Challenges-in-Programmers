@@ -1,51 +1,34 @@
-"""
+"""스킬트리
 
-스킬트리
+스킬 순서가 나오고
 
-skill에는 스킬트리 순서가 적혀있음 -> CBD면 반드시 C -> B -> D 순서대로 배워야함
+가능한지 판별하기
 
-선행스킬 순서 skill_trees가 주어질 때 가능한 스킬트리 개수를 return
+이것도 서브셋인데
+얘는 순서를 따지고
+중간에 다른거 들어가는건 된다는 거네
 
-시간복잡도는 딱히 안따져도 되는듯.
+근데 반드시 다 안들어가도 됨.
 
-26*20*26 이라서 뭐 해봤자 8000정도라서...
-
-근데 최적화는 그냥 set쓰면 됨. 아니면 dict로 반대방향 만들던가.
-
-
+in 최적화는 역시 set임.
 
 """
 
 
 def solution(skill, skill_trees):
-    Cnt = 0
-    Skills = set(skill)
+    result = 0
+    for skill_tree in skill_trees:
+        i = 0
+        for cur_skill in skill_tree:
+            if cur_skill != skill[i]:
+                continue
 
-    for SkillTree in skill_trees:
-        Str = ""
-        for c in SkillTree:
-            if c in Skills:
-                Str += c
+            i += 1
+            if i == len(skill):
+                break
 
-        if skill.find(Str) == 0:
-            Cnt += 1
+        skill_set = set(skill_tree)
+        if i == len(skill) or all(s not in skill_set for s in skill[i:]):
+            result += 1
 
-    return Cnt
-
-
-# def solution(skill, skill_trees):
-#     Cnt = 0
-#     Dict = {Skill: i for i, Skill in enumerate(skill)}
-
-#     for SkillTree in skill_trees:
-#         Idx = 0
-#         for c in SkillTree:
-#             if Dict.get(c) is not None:
-#                 if Dict[c] == Idx:
-#                     Idx += 1
-#                 else:
-#                     break
-#         else:
-#             Cnt += 1
-
-#     return Cnt
+    return result

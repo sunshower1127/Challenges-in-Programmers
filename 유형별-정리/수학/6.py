@@ -1,31 +1,27 @@
-"""
-
-숫자의 표현
-
+"""숫자의 표현
+1 + 2 + 3 + 4 + 5 = 15
+4 + 5 + 6 = 15
+7 + 8 = 15
 15 = 15
-15 = 7 + 8
-15 = 4 + 5 + 6
-15 = 1 + 2 + 3 + 4 + 5
 
-연속된 수의 합으로 표현 할 수 있는 개수 -> 4
+3*5
+5*3
+7.5*2
+15*1
 
-tip : 연속된 수의 합은 가우스 합으로 풀 수 있음 -> 시간복잡도 단축
+center * 개수 = 15
 
+역시 자연수는 소수점으로 막 계산하는것보단, 홀수 짝수로 나눠서 계산하는게 맞음.
 """
 
 
 def solution(n):
-    Cnt = 0
-
-    def sum1(x, y):
-        return (x + y) * (y - x + 1) // 2
-
-    # sum1 = lambda x, y: (x + y) * (y - x + 1) // 2
-
-    for Begin in range(1, n + 1):
-        for End in range(Begin, n + 1):
-            if sum1(Begin, End) == n:
-                Cnt += 1
-            elif sum1(Begin, End) > n:
-                break
-    return Cnt
+    result = 0
+    for length in range(1, n + 1):  # 연속된 숫자의 개수
+        if length % 2:  # 홀수 개수
+            if n % length == 0 and n // length - length // 2 > 0:
+                result += 1
+        else:  # 짝수 개수
+            if n % length == length // 2 and n // length - length // 2 + 1 > 0:
+                result += 1
+    return result

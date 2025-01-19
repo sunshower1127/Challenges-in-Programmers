@@ -1,39 +1,33 @@
-"""
+"""프로세스
 
-프로세스
+큐
 
-우선순위 큐 구현
-
-1. 큐에서 프로세스 하나를 꺼냄
-2. 큐의 나머지 프로세스들과 비교함
-    -> 만약 큐의 나머지 프로세스들 중에 현재 프로세스보다
-        우선순위가 높은 프로세스가 있다면 다시 큐에 넣음
-
-location의 index의 프로세스가 몇번째로 처리되는지 반환
+그냥 뭐.. 큐를 네.
 
 """
 
-from collections import deque
+from collections import Counter, deque
 
 
 def solution(priorities, location):
-    Queue = deque(enumerate(priorities))
+    counter = Counter(priorities)
+    counter = deque(sorted(counter.items(), reverse=True))
+    q = deque(priorities)
+    time = 0
+    while q:
+        priority = q.popleft()
 
-    Num = 1
-    while True:
-        Cur = Queue.popleft()
+        if priority == counter[0][0]:
+            counter[0] = (counter[0][0], counter[0][1] - 1)
+            if counter[0][1] == 0:
+                counter.popleft()
 
-        Break = False
+            time += 1
 
-        for Each in Queue:
-            if Each[1] > Cur[1]:
-                Break = True
-                break
+            if location == 0:
+                return time
 
-        if Break:
-            Queue.append(Cur)
-        else:
-            if Cur[0] == location:
-                return Num
-
-            Num += 1
+        location -= 1
+        q.append(priority)
+        if location == -1:
+            location += len(q)

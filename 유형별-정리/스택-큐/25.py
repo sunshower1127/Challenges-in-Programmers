@@ -1,38 +1,42 @@
-"""
+"""[1차] 캐시
 
-[1차] 캐시
+대소문자 구분 x
 
-LRU -> 가장 오랫동안 참조되지 않은 페이지를 교체
-cache hit -> 1초
-cache miss -> 5초
-했을때 총 시간은?
+LRU일때 (그냥 오래될수록 교체됨.)
 
-deque(maxlen=cacheSize)를 쓸 수도 있다.
-이걸 외워야하는지는.. 흠..
-어쨋든 maxlen을 초과해 append를 하면 반대쪽이 삭제된다.
+캐시크기, hit는 1, miss는 5
+
 """
 
 from collections import deque
 
 
-def solution(cacheSize, cities):
-    Cache = deque()
+def add_cache(cache, cache_set, cache_size, item):
+    cache.append(item)
+    cache_set.add(item)
 
-    Time = 0
+    if len(cache) > cache_size:
+        cache_set.remove(cache.popleft())
 
-    if cacheSize == 0:
-        return len(cities) * 5
 
-    for City in cities:
-        City = City.lower()
-        if City in Cache:
-            Cache.remove(City)
-            Cache.append(City)
-            Time += 1
+def hit_cache(cache, item):
+    cache.remove(item)
+    cache.append(item)
+
+
+def solution(cache_size, cities):
+    cache = deque()
+    cache_set = set()
+    time = 0
+
+    for city in cities:
+        city = city.lower()
+
+        if city in cache_set:
+            time += 1
+            hit_cache(cache, city)
         else:
-            if len(Cache) == cacheSize:
-                Cache.popleft()
-            Cache.append(City)
-            Time += 5
+            time += 5
+            add_cache(cache, cache_set, cache_size, city)
 
-    return Time
+    return time

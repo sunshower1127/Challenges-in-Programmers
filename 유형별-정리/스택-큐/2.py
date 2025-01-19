@@ -1,23 +1,18 @@
+"""올바른 괄호
+
+괄호가 한종류면 그냥 cnt만 써도 된다.
 """
-
-올바른 괄호
-
-"()()" -> True
-")()(" -> False
-
-"""
-
-from collections import deque
 
 
 def solution(s):
-    Stack = deque()
+    cnt = 0
+
     for c in s:
         if c == "(":
-            Stack.append("(")
+            cnt += 1
         else:
-            if not Stack:
+            cnt -= 1
+            if cnt == -1:
                 return False
-            Stack.pop()
 
-    return not Stack
+    return cnt == 0

@@ -1,39 +1,30 @@
+"""구명보트
+
+2명씩
+
+무게제한이 존재함.
+
+최소한의?
+
+이러면 가장 무거운 애를 가장 가벼운 애하고 데리고 갈 수 있나? 가 관건인듯
+그리디죠
+
+deque은 sort가 없구나
+
 """
 
-구명 보트
-
-보트에 최대 2명
-
-limit 이하의 무게 합
-
-최소 몇개 보트 필요?
-
-70 50 80 50 -> 70 / 80 / 50 50 -> 3개
-
-tip : 이게 좀 직관적이지 않은 그리디 문제임. 최대한 효율적으로 낭비없이 넣어보자.
-
-"""
+from collections import deque
 
 
 def solution(people, limit):
     people.sort()
+    people = deque(people)
+    cnt = 0
+    while people:
+        heaviest = people.pop()
+        if len(people) >= 1 and heaviest + people[0] <= limit:
+            people.popleft()
 
-    Left = 0
-    Right = len(people) - 1
-    Cnt = 0
-    while True:
-        if Left == Right:
-            Cnt += 1
-            return Cnt
+        cnt += 1
 
-        if Left > Right:
-            return Cnt
-
-        if people[Left] + people[Right] > limit:
-            Cnt += 1
-            Right -= 1
-            continue
-
-        Left += 1
-        Right -= 1
-        Cnt += 1
+    return cnt

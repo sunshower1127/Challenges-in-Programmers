@@ -1,26 +1,25 @@
-"""
+"""의상
+각 종류별로 최대 1가지
+완전 똑같지만 않으면됨.
 
-의상
+그래도 최소 1개는 입어야함.
 
-[의상명, 의상종류] 들을 줌
-종류별로 최대 하나씩만 입을 수 있음.
-안입을 수는 있지만, 최소 한개는 입어야함.
-경우의수?
+X12
+해서 의상 종류별 +1 한다음에 모두 곱하고,
+아예 안입는 경우만 빼면 될듯
 
-어차피 의상명 안겹치니깐 Counter 쓰는게 나을듯.
-
-reduce를 쓸 수도 있는데 왜냐면 다 곱해야하니깐
-for문이 더 깔끔한 느낌이여서 굳이라는 생각이 드네요
 
 """
 
-from collections import Counter as cnter
+from collections import defaultdict
+from functools import reduce
+from operator import mul
 
 
 def solution(clothes):
-    Cnter = cnter(zip(*clothes)[1])
-    Result = 1
-    for Cnt in Cnter.values():
-        Result *= Cnt + 1
+    items = defaultdict(set)
 
-    return Result - 1
+    for name, category in clothes:
+        items[category].add(name)
+
+    return reduce(mul, (len(v) + 1 for v in items.values())) - 1

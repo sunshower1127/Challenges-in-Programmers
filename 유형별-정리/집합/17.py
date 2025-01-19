@@ -1,25 +1,18 @@
-"""
+"""귤 고르기
 
-귤 고르기
-
-k개를 고르는데, 최대한 중복되는 숫자가 많게 고르자.
--> 숫자 종류의 최솟값을 리턴
-
-tip : 종류별로 개수를 세는 Counter를 사용하면 편하다.
+귤 k개를 고를거임. 이때 어떤 걸 빼야 최소종류가 나옴?
 
 """
 
-from collections import Counter as cnter
+from collections import Counter
 
 
 def solution(k, tangerine):
-    Cnter = cnter(tangerine)
-    Cnt = 0
-    for Value in sorted(Cnter.values(), reverse=True):
-        k -= Value
-        if k <= 0:
-            Cnt += 1
-            break
-        Cnt += 1
+    cnter = Counter(tangerine)
+    cnts = sorted(cnter.values())
+    n = len(tangerine) - k
 
-    return Cnt
+    for i in range(len(cnts)):
+        n -= cnts[i]
+        if n < 0:
+            return len(cnts) - i
