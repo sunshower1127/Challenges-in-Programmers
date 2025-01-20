@@ -1,41 +1,97 @@
+"""더 맵게
+
+K이상으로!
+
+오호라
+
+섞어야 하는 최소 횟수라
+
+직접 MinHeap을 구현해봤지만
+시간초과 나옴
+...
+
+python으로 heap을 구현해봤자 구리다..
+c로 구현된 heapq를 쓰자..
 """
 
-더 맵게
 
-가장 안매운 음식 두개를 섞어서 더 매운 음식으로 만들고
-이과정을 반복해서 모든 음식의 스코빌 지수가 K 이상이 되는 최소 횟수
+class MinHeap:
+    def __init__(self, iterable=None):
+        self.heap = []
 
-섞은 음식의 스코빌 지수 =
-    가장 맵지 않은 음식의 스코빌 지수 +
-    (두 번째로 맵지 않은 음식의 스코빌 지수 * 2)
+        if not iterable:
+            return
 
-길이는 10^6
+        for item in iterable:
+            self.push(item)
 
-계속해서 최솟값을 뽑아내야함 -> 최소힙
+    def push(self, item):
+        self.heap.append(item)
+        self._sift_up(len(self) - 1)
 
-tip : heapq의 default는 최소힙이다.
+    def pop(self):
+        min_v = self[0]
+        self[0] = self[-1]
+        self.heap.pop()
+        self._sift_down(0)
+        return min_v
 
-"""
+    def _sift_up(self, i):
+        if i == 0:
+            return
 
-from heapq import heapify, heappop, heappush
+        parent_i = (i - 1) // 2
+
+        if self[i] < self[parent_i]:
+            self[i], self[parent_i] = self[parent_i], self[i]
+            self._sift_up(parent_i)
+
+    def _sift_down(self, i):
+        child1_i = i * 2 + 1
+        child2_i = i * 2 + 2
+
+        if child1_i < len(self) and self[i] > self[child1_i]:
+            if child2_i < len(self) and self[child1_i] > self[child2_i]:
+                self[i], self[child2_i] = self[child2_i], self[i]
+                self._sift_down(child2_i)
+            else:
+                self[i], self[child1_i] = self[child1_i], self[i]
+                self._sift_down(child1_i)
+
+        elif child2_i < len(self) and self[i] > self[child2_i]:
+            if child1_i < len(self) and self[child2_i] > self[child1_i]:
+                self[i], self[child1_i] = self[child1_i], self[i]
+                self._sift_down(child1_i)
+            else:
+                self[i], self[child2_i] = self[child2_i], self[i]
+                self._sift_down(child2_i)
+
+    def __getitem__(self, i):
+        return self.heap[i]
+
+    def __setitem__(self, i, value):
+        self.heap[i] = value
+
+    def __bool__(self):
+        return bool(self.heap)
+
+    def __len__(self):
+        return len(self.heap)
 
 
 def solution(scoville, K):
-    Cnt = 0
-    heapify(scoville)
-
-    def f(x, y):
-        return x + y * 2
-
+    min_heap = MinHeap(scoville)
+    cnt = 0
     while True:
-        First = heappop(scoville)
+        min1 = min_heap.pop()
+        if min1 >= K:
+            return cnt
 
-        if First >= K:
-            return Cnt
-
-        if not scoville:
+        if not min_heap:
             return -1
 
-        Second = heappop(scoville)
-        heappush(scoville, f(First, Second))
-        Cnt += 1
+        min2 = min_heap.pop()
+
+        min_heap.push(min1 + min2 * 2)
+
+        cnt += 1

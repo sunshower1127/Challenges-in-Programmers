@@ -6,7 +6,6 @@
 
 아하 sorted 리턴형은 list네요
 
-TODO: 여기서 combinations를 직접 만들면 메모라이제이션 쓴 그래프 탐색으로 풀 수 있을듯.
 """
 
 from collections import Counter

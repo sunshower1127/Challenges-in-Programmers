@@ -1,60 +1,37 @@
 """배달
 
-다익스트라라고 하네요
+다익스트라임.
 
-다익스트라 -> 특정 노드에부터 다른 노드까지의 모든 거리를 구할 수 있음.
+다익스트라 = 출발노드부터 다른 노드까지의 거리가 최소인것만 힙에 넣고 꺼내면서 탐색하면 됨
 
-도로가 2000개. 마을이 50개
-
-굳이 최소힙으로 최적화 안해도 되긴함.
-
-다익스트라가 내가 이해하기로는
-방문한 노드 집합은 각각 자신의 최소거리를 알고 있고
-방문하지 않은 노드 집합과 방문한 노드 집합간의 거리중에서 최소만 선택해나가면
-된다는거 같은데
-방문한 노드 집합과 방문안한 노드 집합 사이의 엣지들은 재사용 가능하니깐 최소힙에다 넣으면 된다.
-
-TODO: 다익스트라 나중에 한 번 더 정비해서 보기. 일단 포기
 """
 
 from heapq import heappop, heappush
 
 
-def solution(N, roads, K):
-    road_dists = [[float("inf")] * (N + 1) for _ in range(N + 1)]
-
-    for a, b, dist in roads:
-        road_dists[a][b] = min(road_dists[a][b], dist)
-        road_dists[b][a] = min(road_dists[b][a], dist)
-
-    visited = set()
-    unvisited = set(range(1, N + 1))
-
-    min_heap = [(0, 0, 1)]
+def solution(N, road, K):
     min_dists = [float("inf")] * (N + 1)
-    min_dists[0] = 0
+    min_dists[1] = 0
 
+    roads = [[float("inf")] * (N + 1) for _ in range(N + 1)]
+
+    for node_a, node_b, dist in road:
+        roads[node_a][node_b] = min(roads[node_a][node_b], dist)
+        roads[node_b][node_a] = min(roads[node_b][node_a], dist)
+
+    min_heap = [(0, 1)]
     while min_heap:
-        dist, node_start, node_end = heappop(min_heap)
-
-        if node_end not in unvisited:
+        dist, node = heappop(min_heap)
+        if dist > min_dists[node]:
             continue
 
-        new_dist = min_dists[node_start] + dist
+        for new_node in range(2, N + 1):
+            new_dist = dist + roads[node][new_node]
 
-        if new_dist >= min_dists[node_end]:
-            continue
-
-        min_dists[node_end] = new_dist
-
-        visited.add(node_end)
-        unvisited.remove(node_end)
-
-        for new_node in unvisited:
-            road_dist = road_dists[new_node][node_end]
-            if road_dist == float("inf"):
+            if new_dist >= min_dists[new_node]:
                 continue
 
-            heappush(min_heap, (road_dist, node_end, new_node))
+            min_dists[new_node] = new_dist
+            heappush(min_heap, (new_dist, new_node))
 
-    return [min_dist <= K for min_dist in min_dists].count(True) - 1
+    return [min_dist <= K for min_dist in min_dists[1:]].count(True)
