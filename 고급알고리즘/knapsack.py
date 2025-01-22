@@ -6,6 +6,9 @@
 3 6
 5 12
 
+아 여기서
+dp[y][x-1]은 검증할 필요가 없음.
+이건 보통 아이템 중복 선택에서 쓰이는 거라네요
 """
 
 N, K = map(int, input().split(" "))
@@ -18,7 +21,6 @@ for y in range(1, N + 1):
     item_weight, item_value = items[y - 1]
     for x in range(1, K + 1):
         dp[y][x] = max(
-            dp[y][x - 1],
             dp[y - 1][x],
             (dp[y - 1][x - item_weight] + item_value) if x - item_weight >= 0 else 0,
         )

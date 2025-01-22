@@ -38,7 +38,6 @@ tip2. -가 음수도 될 수 있기 때문에 예외처리가 쉽지 않았음. 
 """
 
 from itertools import permutations
-from pprint import pprint
 
 
 def find_op(expr, op):
@@ -107,7 +106,7 @@ def get_value(expr, ops):
             else:
                 result = left_num * right_num
 
-            expr = f"{expr[:left_i]}{result}{expr[right_i+1:]}"
+            expr = f"{expr[:left_i]}{result}{expr[right_i + 1 :]}"
 
         # while
     # for

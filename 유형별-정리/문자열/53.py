@@ -19,4 +19,6 @@
 
 
 def solution(numbers):
-    return str(int("".join(sorted(map(str, numbers), key=lambda v: v * 3)[::-1])))
+    return str(
+        int("".join(sorted(map(str, numbers), key=lambda v: v * 3, reverse=True)))
+    )
