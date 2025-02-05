@@ -68,3 +68,5 @@ def solution2(word):
             left = mid + 1
         else:
             right = mid - 1
+
+    return None

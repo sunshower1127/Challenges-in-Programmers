@@ -28,16 +28,13 @@ def is_sub(comb, cand):  # (0, 1) (0)
 
 
 def is_ok(candidates, comb):
-    for cand in candidates:
-        if is_sub(comb, cand):
-            return False
-    return True
+    return all(not is_sub(comb, cand) for cand in candidates)
 
 
 def solution(relation):
-    rows_n = len(relation)  # 6
     cols_n = len(relation[0])  # 4
     candidates = []
+
     for i in range(1, cols_n + 1):  # 1 ~ 4 -> 1
         combs = combinations(
             list(range(cols_n)), i

@@ -63,8 +63,8 @@ def solution(plans):
 
             continue
 
-        else:  # 마지막 할일인 경우
-            complete.append(name)
-            if wait_stack:
-                complete += reversed(list(zip(*wait_stack))[0])
-            return complete
+        # 마지막 할일인 경우
+        complete.append(name)
+        if wait_stack:
+            complete += reversed(next(zip(*wait_stack)))
+        return complete

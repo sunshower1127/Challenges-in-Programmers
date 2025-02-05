@@ -1,5 +1,4 @@
-"""
-모든 경우의수 나열?
+"""모든 경우의수 나열?
 길이가 최대 7
 dfs로 그냥 전부 돌아보면서, 각 부분마다 체크하기.
 소수판별은 그냥 9999999 -> 10^7 이니깐 nlogn에 들어감.
@@ -16,11 +15,7 @@ def is_prime(num):
     if num == 1:
         return False
 
-    for i in range(2, int(num ** (1 / 2)) + 1):
-        if num % i == 0:
-            return False
-
-    return True
+    return all(num % i != 0 for i in range(2, int(num**0.5) + 1))
 
 
 def solution(nums):

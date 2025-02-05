@@ -79,3 +79,5 @@ def solution(board):
 
     if o_win and x_win:
         return 0
+
+    return None

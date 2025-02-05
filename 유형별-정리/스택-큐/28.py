@@ -31,3 +31,5 @@ def solution(priorities, location):
         q.append(priority)
         if location == -1:
             location += len(q)
+
+    return None

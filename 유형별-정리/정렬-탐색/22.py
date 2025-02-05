@@ -21,3 +21,5 @@ def solution(citations):
             num += cnter[h]
         if h <= num:
             return h
+
+    return None

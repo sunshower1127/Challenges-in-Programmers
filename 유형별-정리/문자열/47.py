@@ -4,7 +4,8 @@ import re
 
 
 def get_key(v):
-    match = re.match(r"(.+?)([0-9]+)", v) or exit()
+    match = re.match(r"(.+?)([0-9]+)", v)
+    assert match
     return (match.group(1).lower(), int(match.group(2)))
 
 

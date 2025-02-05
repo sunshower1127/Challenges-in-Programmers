@@ -1,5 +1,4 @@
-"""
-행렬 테두리 회전하기
+"""행렬 테두리 회전하기
 
 굉장히 헷갈렸음. 구현자체도 회전은 처음 구현해보는거였고
 행렬에서 계속 y하고 x가 헷갈려서 (+- 방향이나 행,열)
@@ -32,8 +31,7 @@ def solution(rows, columns, queries):
             temp = mat[y - 1][x - 1]
             mat[y - 1][x - 1] = v
             v = temp
-            if v < min_v:
-                min_v = v
+            min_v = min(v, min_v)
 
             if y == y1 + 1 and x == x1:
                 break

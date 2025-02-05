@@ -1,6 +1,4 @@
-"""
-
-124 나라의 숫자
+"""124 나라의 숫자
 
 3진수인지 알았는데 아니네요
 2진수?
@@ -33,6 +31,8 @@ def solution(n):
             if cnt == n:
                 return new_num
             q.append(new_num)
+
+    return None
 
 
 def solution2(n):

@@ -1,6 +1,4 @@
-"""
-
-다리를 지나는 트럭
+"""다리를 지나는 트럭
 
 트럭n대를 올릴 수 있음. 무게합이 초과하지않고 다 옮겨야함.
 
@@ -43,3 +41,5 @@ def solution(bridge_length, weight, truck_weights):
 
         elif truck_i == N and weight_sum == 0:
             return t + 1
+
+    return None

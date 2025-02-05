@@ -7,6 +7,8 @@
 이런 경우는 스택을 써서 최적화를 해줘야한다.
 """
 
+import re
+
 
 def solution(s):
     stack = []
@@ -20,9 +22,6 @@ def solution(s):
         return 0
     else:
         return 1
-
-
-import re
 
 
 def resolution(s):

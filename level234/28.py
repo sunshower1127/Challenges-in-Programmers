@@ -55,7 +55,7 @@
 import heapq as h
 
 
-class MinHeap:
+class Heap:
     def __init__(self, iterable):
         self.ls = list(iterable)
         h.heapify(self.ls)
@@ -88,7 +88,7 @@ class MinHeap:
 
 def solution(a):
     left_min_v = float("inf")
-    right_min_heap = MinHeap(a)
+    right_min_heap = Heap(a)
     cnt = 0
 
     for i in range(len(a) - 1):

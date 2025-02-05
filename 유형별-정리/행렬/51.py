@@ -1,6 +1,4 @@
-"""
-
-[1차] 프렌즈 4블록
+"""[1차] 프렌즈 4블록
 
 쉽지 않았음 ㄹㅇ
 
@@ -21,9 +19,8 @@ a = b = c = d = 1 도 원래 안돼야하는데
 
 
 def GetBomb(H, W, Mat):
-    """
-    input : 현재 매트릭스
-    output : 터뜨려야할 좌표들이 담긴 매트릭스 -> 터뜨릴 부분은 True, 아닌 부분은 False
+    """Input : 현재 매트릭스
+    Output : 터뜨려야할 좌표들이 담긴 매트릭스 -> 터뜨릴 부분은 True, 아닌 부분은 False
     """
     IsBomb = [[False] * H for _ in range(W)]
 

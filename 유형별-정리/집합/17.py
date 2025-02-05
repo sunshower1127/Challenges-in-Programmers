@@ -16,3 +16,5 @@ def solution(k, tangerine):
         n -= cnts[i]
         if n < 0:
             return len(cnts) - i
+
+    return None

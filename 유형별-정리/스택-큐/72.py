@@ -1,6 +1,4 @@
-"""
-
-괄호 변환
+"""괄호 변환
 
 균형잡힘 -> (와 )가 개수가 같음
 올바름 -> 균형잡힘 + 짝도맞음
@@ -53,7 +51,7 @@ def split(w):
             if 올바른(u):
                 return u + split(v)
             else:
-                temp = f"({ split(v) })"
+                temp = f"({split(v)})"
                 temp += reverse(u[1:-1])
                 return temp
 
