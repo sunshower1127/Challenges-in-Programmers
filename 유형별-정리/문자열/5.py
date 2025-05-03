@@ -6,18 +6,35 @@
 
 답 : [반복횟수, 총 제거된 0 개수]
 
-너무 쉬워서 안풀겠음
+이게 10진수에서 2진수 변환은 파이썬에서 bin()을 지원해주는데
+뭐 3진수라던지 바리에이션이 나올 수도 있으니깐 직접 구현하는게 좋을 수 있음.
 
 """
 
 
-def solution(s):
-    WhileCnt = 0
-    CountCnt = 0
-    while s != "1":
-        WhileCnt += 1
-        CountCnt += s.count("0")
-        s = s.replace("0", "")
-        s = bin(len(s))[2:]
+def dec_to_bin(dec):
+    result = []
+    q = dec
+    while True:
+        if q == 0: break
+        q, r = divmod(q, 2)
+        result.append(str(r))
+    
+    return "".join(reversed(result))
 
-    return [WhileCnt, CountCnt]
+def solution(s):
+    cnt = 0
+    removed_zero_cnt = 0
+    while True:
+        if s == "1":
+            return [cnt, removed_zero_cnt]
+        
+        length = len(s)
+        s = s.replace("0", "")
+        new_length = len(s)
+        removed_zero_cnt += length - new_length
+        
+        s = dec_to_bin(new_length)
+        
+        cnt += 1
+        

@@ -37,9 +37,7 @@ def solution(is_rock):
     width = len(is_rock[0])
     result = INF
 
-    min_costs: list[list[list[int] | list[float]]] = [  # 타입 에러 해결
-        [[INF] * 4 for _ in range(width)] for _ in range(height)
-    ]
+    min_costs = [[[INF] * 4 for _ in range(width)] for _ in range(height)]
     # min_costs[y][x][dir_i]
 
     def dfs(y, x):

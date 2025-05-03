@@ -16,7 +16,7 @@ center * 개수 = 15
 
 
 def solution(n):
-    result = 0
+    result = 0  
     for length in range(1, n + 1):  # 연속된 숫자의 개수
         if length % 2:  # 홀수 개수
             if n % length == 0 and n // length - length // 2 > 0:

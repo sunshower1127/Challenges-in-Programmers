@@ -44,7 +44,7 @@ dp[n][2] = max(dp[n-3]) + before + current
 dp[n] = max(
     dp[n-1],
     dp[n-2] + drink[n],
-    dp[n-3] + drink[n-1], drink[n]
+    dp[n-3] + drink[n-1] + drink[n]
 )
 
 즉,
